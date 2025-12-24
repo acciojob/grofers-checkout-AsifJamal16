@@ -1,75 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Grocery Total</title>
+    <title>grocery total price</title>
 </head>
-
 <body>
 
-    <table style="width: 100%">
-        <caption>Monthly Savings</caption>
+    <h2>grocery list</h2>
 
+    <table id="grocery-table" border="1" cellpadding="10">
         <tr>
-            <th>Item</th>
-            <th>Prices in Rs</th>
+            <th>item</th>
+            <th>price</th>
         </tr>
 
-        <tr>
-            <td class="item">Tea</td>
+        <tr class="item">
+            <td>rice</td>
             <td class="prices">50</td>
         </tr>
-        <tr>
-            <td class="item">Coffee</td>
-            <td class="prices">70</td>
+
+        <tr class="item">
+            <td>milk</td>
+            <td class="prices">30</td>
         </tr>
-        <tr>
-            <td class="item">Biscuits</td>
-            <td class="prices">100</td>
-        </tr>
-        <tr>
-            <td class="item">Rice</td>
-            <td class="prices">130</td>
-        </tr>
-        <tr>
-            <td class="item">Milk</td>
-            <td class="prices">50</td>
+
+        <tr class="item">
+            <td>bread</td>
+            <td class="prices">20</td>
         </tr>
     </table>
 
+    <br>
+
+    <button onclick="calculateTotal()">calculate total</button>
+
     <script>
-        const getSumBtn = document.createElement("button");
-        getSumBtn.append("Get Total Price");
-        document.body.appendChild(getSumBtn);
+        function calculateTotal() {
+            let priceElements = document.querySelectorAll(".prices");
+            let total = 0;
 
-        const getSum = () => {
+            for (let i = 0; i < priceElements.length; i++) {
+                total += Number(priceElements[i].innerText);
+            }
 
-            // select all td having class "prices"
-            let values = document.querySelectorAll("td.prices");
+            let table = document.getElementById("grocery-table");
 
-            let sum = 0;
+            // remove existing total row if present
+            let oldTotalRow = document.getElementById("total-row");
+            if (oldTotalRow) {
+                oldTotalRow.remove();
+            }
 
-            values.forEach(function(v) {
-                sum = sum + Number(v.innerText);
-            });
+            // create new total row
+            let totalRow = document.createElement("tr");
+            totalRow.id = "total-row";
 
-            // create new row
-            let newRow = document.createElement("tr");
+            let totalCell = document.createElement("td");
+            totalCell.colSpan = 2;
+            totalCell.innerText = "total price: " + total;
 
-            // create one cell
-            let cell = document.createElement("td");
-
-            // span across both columns
-            cell.setAttribute("colspan", "2");
-            cell.innerText = "Total Price = " + sum;
-
-            newRow.appendChild(cell);
-
-            // append row to table
-            document.querySelector("table").appendChild(newRow);
-        };
-
-        getSumBtn.addEventListener("click", getSum);
+            totalRow.appendChild(totalCell);
+            table.appendChild(totalRow);
+        }
     </script>
 
 </body>
